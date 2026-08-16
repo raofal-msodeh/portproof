@@ -1,0 +1,62 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "portproof"
+version = "1.0.0"
+description = "Deterministic port and service verification with JSON evidence"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [{ name = "Manus AI" }]
+keywords = ["port", "verification", "healthcheck", "ci", "tcp", "tls"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Networking",
+    "Typing :: Typed",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff", "mypy", "build"]
+
+[project.scripts]
+portproof = "portproof.cli:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "ANN101", # self has no type annotation
+    "ANN102", # cls has no type annotation
+    "C901",   # too complex (main CLI)
+    "COM812", # trailing comma conflicts with formatter
+    "D",      # docstring coverage
+    "FBT003", # positional boolean in public API (CLI booleans)
+    "ISC001", # string concatenation conflicts with formatter
+    "PLR0912", "PLR0913", "PLR0915", # branches/args/statements counts
+    "S104",   # bind to 0.0.0.0 (test servers)
+    "SLF001", # private member access (tests)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN", "ARG001", "PLC2701", "S101", "S105"]
+
+[tool.mypy]
+strict = true
+warn_unreachable = true
+warn_return_any = false
+exclude = ["^\\.venv/"]

@@ -1,0 +1,55 @@
+target-version = "py311"
+line-length = 100
+
+[lint]
+select = ["ALL"]
+ignore = [
+  "ANN001",  # missing type annotation for function argument
+  "ANN401",  # `Any` is allowed for dynamic CLI/report structures
+  "ARG001",  # unused function argument (classifier keeps target for future context)
+  "ARG002",  # unused method argument (fake IO keeps protocol-compatible signatures)
+  "UP042",  # StrEnum migration targets pre-3.11 compatibility in docs
+  "C901",    # function too complex (CLI run dispatches a few well-known branches)
+  "BLE001",  # broad `except BaseException` - intentional in engine socket cleanup
+  "COM812",  # conflicts with formatter
+  "CPY001",  # missing copyright notice at top of file
+  "D100",    # missing docstring in public module
+  "D101",    # missing docstring in public class
+  "D102",    # missing docstring in public method
+  "D103",    # missing docstring in public function
+  "D104",    # missing docstring in public package
+  "D105",    # missing docstring in magic method
+  "D107",    # missing docstring in `__init__`
+  "D203",    # conflicts with D211
+  "D212",    # multi-line-summary-first-line
+  "EM101", "EM102",  # exception message literals (format strings allowed)
+  "ERA001",  # commented-out code
+  "FIX002",  # TODO markers
+  "INP001",  # implicit namespace packages
+  "ISC001",  # conflicts with formatter
+  "PLR0913", # too many arguments
+  "S104",    # hardcoded bind (test servers bind 127.0.0.1 on purpose)
+  "PLR2004",  # magic value in comparison
+  "PTH113",  # `os.path.isfile()` kept for pre-init validation symmetry
+  "PLW0127",  # self-assignment used as an intentional re-export
+  "S105",    # hardcoded password detection (false positives in tests)
+  "PTH123",  # `open()` should be replaced by `Path.open()`
+  "T201",    # `print` in CLI output is intentional
+  "TD002", "TD003",  # TODO markers
+  "TRY003",  # long exception messages
+  "TRY300",  # try-else block not needed for explicit returns
+  "TRY301",  # abstract raise to inner function
+  "TC003",  # move stdlib import into type-checking block
+]
+
+[lint.per-file-ignores]
+"tests/**/*.py" = [
+  "FBT001", "FBT002",  # boolean args in test helper
+  "PT011",  # broad raises in unit tests
+  "PLR0917",  # positional args in test helper _config
+  "PLC0415",  # late imports in TLS server helper
+  "ANN201",  # missing return type annotation in test functions
+  "INP001",
+  "S101",    # `assert` in tests
+  "SLF001",  # private member access in tests
+]
